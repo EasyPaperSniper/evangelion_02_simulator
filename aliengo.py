@@ -11,7 +11,7 @@ p.setTimeStep(1./500)
 #urdfFlags = p.URDF_USE_SELF_COLLISION+p.URDF_USE_SELF_COLLISION_EXCLUDE_ALL_PARENTS
 urdfFlags = p.URDF_USE_SELF_COLLISION
 print(os.getcwd())
-quadruped = p.loadURDF("./data/A1/urdf/a1.urdf",[0,0,0.48],[0,0,0,1], flags = urdfFlags,useFixedBase=False)
+quadruped = p.loadURDF("./data/a1/a1_urdf/a1.urdf",[0,0,0.48],[0,0,0,1], flags = urdfFlags,useFixedBase=False)
 
 # enable collision between lower legs
 for j in range (p.getNumJoints(quadruped)):
