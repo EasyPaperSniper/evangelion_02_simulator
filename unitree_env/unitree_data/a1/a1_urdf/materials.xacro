@@ -33,7 +33,7 @@
         <color rgba="0.8 0.0 0.0 1.0"/>
     </material>
 
-    <material name="white">
+    <material name="grey">
         <color rgba="1.0 1.0 1.0 1.0"/>
     </material>
 
