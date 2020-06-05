@@ -49,7 +49,7 @@ class UnitreeRobot(URDFBasedRobot):
                         obs_dim=4, basePosition=[0, 0, initial_height], baseOrientation=[0, 0, 0, 1],
                         fixed_base=False, self_collision=self_collision)
             self._adapted_urdf_filepath = (os.path.dirname(os.path.dirname(currentdir)) + 
-                                    '/evangelion_02_simulator/unitree_env/unitree_data/aliengo/urdf/aliengo.urdf')
+                                    '/evangelion_02_simulator/unitree_env/unitree_data/aliengo/aliengo_urdf/aliengo.urdf')
             self._initial_joint_positions =[-0.15,0.60,-1.20,
                                             0.15, 0.60,-1.20,
                                             -0.15,0.65,-1.0,
