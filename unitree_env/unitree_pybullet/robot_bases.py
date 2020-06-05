@@ -86,8 +86,7 @@ class XmlBasedRobot:
 
 				parts[part_name] = BodyPart(self._p, part_name, bodies, i, j)
 
-
-				if i == 0 and j == 0 and self.robot_body is None:  # if nothing else works, we take this as robot_body
+				if part_name == 'imu_link':
 					parts[self.robot_name] = BodyPart(self._p, self.robot_name, bodies, 0, -1)
 					self.robot_body = parts[self.robot_name]
 

@@ -32,7 +32,8 @@ class StadiumScene(Scene):
             #
             for i in self.ground_plane_mjcf:
                 print("Initialize plane with restitution={} and lateralFriction={}".format(self._restitution, self._lateralFriction))
-                self._p.changeDynamics(i,-1,lateralFriction=self._lateralFriction, restitution=self._restitution)
+                self._p.changeDynamics(i,-1,lateralFriction=self._lateralFriction, spinningFriction = self._spinningFriction, 
+                rollingFriction = self._rollingFriction,restitution=self._restitution,)
                 self._p.changeVisualShape(i,-1,rgbaColor=[1,1,1,0.5])
                 self._p.configureDebugVisualizer(pybullet.COV_ENABLE_PLANAR_REFLECTION, self._COV_ENABLE_PLANAR_REFLECTION)
 
@@ -42,9 +43,12 @@ class StadiumScene(Scene):
 
 class SinglePlayerStadiumScene(StadiumScene):
     """This scene created by environment, to work in a way as if there was no concept of scene visible to user."""
-    def __init__(self, lateralFriction=0.8, restitution=0.6, COV_ENABLE_PLANAR_REFLECTION_plane= 1, **kwargs):
+    def __init__(self, lateralFriction=0.5,spinningFriction = 0.5,
+            rollingFriction = 0.5, restitution=0.1, COV_ENABLE_PLANAR_REFLECTION_plane= 1, **kwargs):
         self.multiplayer = False
         self._lateralFriction = lateralFriction
+        self._spinningFriction = spinningFriction
+        self._rollingFriction = rollingFriction 
         self._restitution = restitution
         self._COV_ENABLE_PLANAR_REFLECTION = COV_ENABLE_PLANAR_REFLECTION_plane
         super(StadiumScene, self).__init__(**kwargs)

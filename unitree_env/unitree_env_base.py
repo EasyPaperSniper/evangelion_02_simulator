@@ -14,8 +14,10 @@ class UnitreeBase(MJCFBaseBulletEnv):
         sim_frameskip = 1,
         sim_numSolverIterations = 10,
         do_hard_reset = False,
-        lateralFriction_plane=0.8,
-        restitution_plane=0.6,
+        lateralFriction_plane=1.0,
+        spinningFriction_plane=0.1, 
+        rollingFriction_plane = 0.1,
+        restitution_plane=0.1,
         COV_ENABLE_PLANAR_REFLECTION_plane= 0,
         COV_ENABLE_SHADOWS = False,
         **kwargs
@@ -43,7 +45,9 @@ class UnitreeBase(MJCFBaseBulletEnv):
         self._param_sim_numSolverIterations = sim_numSolverIterations
         self._param_init_camera_width = 320
         self._param_init_camera_height = 200
-        self._param_lateralFriction_plane=lateralFriction_plane
+        self._param_lateralFriction_plane = lateralFriction_plane
+        self._param_spinningFriction_plane = spinningFriction_plane
+        self._param_rollingFriction_plane = rollingFriction_plane
         self._param_restitution_plane=restitution_plane
         self._param_COV_ENABLE_PLANAR_REFLECTION_plane= COV_ENABLE_PLANAR_REFLECTION_plane
         self._param_COV_ENABLE_SHADOWS = COV_ENABLE_SHADOWS
@@ -71,6 +75,8 @@ class UnitreeBase(MJCFBaseBulletEnv):
             timestep=self._param_sim_timestep,
             frame_skip=self._param_sim_frameskip,
             lateralFriction=self._param_lateralFriction_plane,
+            spinningFriction = self._param_spinningFriction_plane,
+            rollingFriction = self._param_rollingFriction_plane,
             restitution=self._param_restitution_plane,
             COV_ENABLE_PLANAR_REFLECTION_plane=self._param_COV_ENABLE_PLANAR_REFLECTION_plane,
             )

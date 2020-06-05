@@ -15,21 +15,19 @@ import atexit
 
 class UnitreeRobot(URDFBasedRobot):
     def __init__(self, robot_type = 'a1', initial_height = 0.48, self_collision=False,
-        lateralFriction_robot=0.5, spinningFriction_robot=0.5, rollingFriction_robot = 0.5, linearDamping_robot = 0.2, restitution_robot=0.01,
-        control_mode = 'position', initial_joint_positions=None, **kwargs):
+        lateralFriction_robot=0.5, spinningFriction_robot=0.5, rollingFriction_robot = 0.5, linearDamping_robot = 0.0, angularDamping_robot = 0.0,
+        restitution_robot=0.01, control_mode = 'position', initial_joint_positions=None, **kwargs):
         self._lateralFriction = lateralFriction_robot
         self._spinningFriction = spinningFriction_robot
         self._rollingFriction = rollingFriction_robot
         self._restitution = restitution_robot
         self._initialize_robot_subtype(robot_type, initial_height, self_collision)
         self._linearDamping = linearDamping_robot
+        self._angularDamping = angularDamping_robot
         self.control_mode = control_mode
         self.initial_height = initial_height
         self._first_urdf_load = True
 
-
-        if initial_joint_positions is not None:
-            self.set_initial_joint_positions(initial_joint_positions)
     
 
     def _initialize_robot_subtype(self, robot_type, initial_height, self_collision):
@@ -40,6 +38,10 @@ class UnitreeRobot(URDFBasedRobot):
                         fixed_base=False, self_collision=self_collision)
             self._adapted_urdf_filepath = (os.path.dirname(os.path.dirname(currentdir)) + 
                                     '/evangelion_02_simulator/unitree_env/unitree_data/a1/a1_urdf/a1.urdf')
+            self._initial_joint_positions = [-0.05,0.60,-1.20,
+                                             0.05, 0.60,-1.20,
+                                             -0.05,0.65,-1.0,
+                                             0.05, 0.65,-1.0]
 
         if robot_type == 'aliengo':
             URDFBasedRobot.__init__(self, "aliengo.urdf", "aliengo",
@@ -48,6 +50,10 @@ class UnitreeRobot(URDFBasedRobot):
                         fixed_base=False, self_collision=self_collision)
             self._adapted_urdf_filepath = (os.path.dirname(os.path.dirname(currentdir)) + 
                                     '/evangelion_02_simulator/unitree_env/unitree_data/aliengo/urdf/aliengo.urdf')
+            self._initial_joint_positions =[-0.15,0.60,-1.20,
+                                            0.15, 0.60,-1.20,
+                                            -0.15,0.65,-1.0,
+                                            0.15, 0.65,-1.0]
 
             
     def robot_specific_reset(self, bullet_client):
@@ -64,13 +70,15 @@ class UnitreeRobot(URDFBasedRobot):
         if self._first_urdf_load:
             self._create_robot_from_urdf(bullet_client)
             self._first_urdf_load = False
-        self.set_friction_and_restitution(bullet_client, lateralFriction=self._lateralFriction, restitution=self._restitution)
+        self.set_friction_and_restitution(bullet_client, lateralFriction=self._lateralFriction, restitution=self._restitution,
+                                            linearDamping=self._linearDamping, angularDamping=self._angularDamping)
         self._reset_joint_positions()
 
 
     def _reset_joint_positions(self):
-        for j in self.ordered_joints:
-            j.reset_position(0.0, 0.0)
+        for i in range(len(self.ordered_joints)):
+            j = self.ordered_joints[i]
+            j.reset_position(self._initial_joint_positions[i], 0.0)
             j.set_torque(0.0)
 
     
@@ -187,11 +195,13 @@ class UnitreeRobot(URDFBasedRobot):
         }
 
 
-    def set_friction_and_restitution(self, bullet_client, lateralFriction=0.5, restitution=0.1):
+    def set_friction_and_restitution(self, bullet_client, lateralFriction=0.5, restitution=0.1, linearDamping = 0.0, angularDamping = 0.0,):
         body_idx = self.robot_body.bodies[0]
         numLinks = bullet_client.getNumJoints(body_idx)
-        bullet_client.changeDynamics(body_idx, -1, restitution=restitution, lateralFriction=lateralFriction)
+        bullet_client.changeDynamics(body_idx, -1, restitution=restitution, lateralFriction=lateralFriction,
+                                linearDamping=linearDamping, angularDamping=angularDamping)
         # print("Set restitution {} and friction {} for body/robot {}".format(restitution, lateralFriction, body_idx))
 
         for joint_idx in range(numLinks):
-            bullet_client.changeDynamics(body_idx, joint_idx, restitution=restitution, lateralFriction=lateralFriction)
+            bullet_client.changeDynamics(body_idx, joint_idx, restitution=restitution, lateralFriction=lateralFriction, 
+                                        linearDamping=linearDamping, angularDamping=angularDamping)
