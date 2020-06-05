@@ -6,7 +6,7 @@ import numpy as np
 import unitree_env as e
 
 
-env = e.UnitreeBasicEnv(render=True, robot ='aliengo',control_mode='position')
+env = e.UnitreeBasicEnv(render=True, robot ='a1',control_mode='position')
 
 state = env.reset()
 for _ in range(200):
