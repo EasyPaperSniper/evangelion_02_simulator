@@ -37,7 +37,7 @@ class UnitreeRobot(URDFBasedRobot):
                         obs_dim=4, basePosition=[0, 0, initial_height], baseOrientation=[0, 0, 0, 1],
                         fixed_base=False, self_collision=self_collision)
             self._adapted_urdf_filepath = (os.path.dirname(os.path.dirname(currentdir)) + 
-                                    '/evangelion_02_simulator/unitree_env/unitree_data/a1/a1_urdf/a1.urdf')
+                                    '/evangelion_02_simulator/unitree_env/unitree_data/a1/a1_urdf/a1_eva_01.urdf')
             self._initial_joint_positions = [-0.05,0.60,-1.20,
                                              0.05, 0.60,-1.20,
                                              -0.05,0.65,-1.0,
@@ -169,7 +169,7 @@ class UnitreeRobot(URDFBasedRobot):
         joint_positions = [j.get_position() for j in self.ordered_joints]
         joint_velocities = [j.get_velocity() for j in self.ordered_joints]
         joint_effort = [j.get_torque() for j in self.ordered_joints]
-        foot_pose = [f.current_position() for f in self.ordered_foot]
+        foot_pos = [f.current_position() for f in self.ordered_foot]
         base_position = self.robot_body.current_position()
         base_velocity = self.robot_body.speed()
         base_angular_velocity =self.robot_body.angular_velocity()
@@ -191,7 +191,8 @@ class UnitreeRobot(URDFBasedRobot):
         'j_pos' : joint_positions,
         'j_vel' : joint_velocities,
         'j_eff' : joint_effort,
-        'foot_pos': foot_pose
+        'foot_pos': np.reshape(foot_pos, 12),
+        'foot_pos_robot': np.reshape(foot_pos-base_position,12) # for testing IK
         }
 
 
