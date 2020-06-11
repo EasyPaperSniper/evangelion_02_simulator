@@ -10,14 +10,14 @@ from .unitree_pybullet.StadiumScene import SinglePlayerStadiumScene
 class UnitreeBase(MJCFBaseBulletEnv):
     def __init__(self, robot,
         render=False,
-        sim_timestep = 0.0165,
-        sim_frameskip = 1,
+        sim_timestep = 1./1000.,
+        sim_frameskip = 10,
         sim_numSolverIterations = 10,
         do_hard_reset = False,
-        lateralFriction_plane=1.0,
+        lateralFriction_plane=0.8,
         spinningFriction_plane=0.1, 
         rollingFriction_plane = 0.1,
-        restitution_plane=0.1,
+        restitution_plane=0.0,
         COV_ENABLE_PLANAR_REFLECTION_plane= 0,
         COV_ENABLE_SHADOWS = False,
         **kwargs

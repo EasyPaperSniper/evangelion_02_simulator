@@ -14,9 +14,9 @@ import tempfile
 import atexit
 
 class UnitreeRobot(URDFBasedRobot):
-    def __init__(self, robot_type = 'a1', initial_height = 0.48, self_collision=False,
-        lateralFriction_robot=0.5, spinningFriction_robot=0.5, rollingFriction_robot = 0.5, linearDamping_robot = 0.0, angularDamping_robot = 0.0,
-        restitution_robot=0.01, control_mode = 'position', initial_joint_positions=None, **kwargs):
+    def __init__(self, robot_type = 'a1', initial_height = 0.40, self_collision=False,
+        lateralFriction_robot=0.5, spinningFriction_robot=0.1, rollingFriction_robot = 0.1, linearDamping_robot = 0.1, angularDamping_robot = 0.1,
+        restitution_robot=0.00, control_mode = 'position', initial_joint_positions=None, **kwargs):
         self._lateralFriction = lateralFriction_robot
         self._spinningFriction = spinningFriction_robot
         self._rollingFriction = rollingFriction_robot

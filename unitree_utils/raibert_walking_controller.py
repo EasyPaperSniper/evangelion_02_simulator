@@ -7,8 +7,8 @@ from unitree_utils.quadruped_kinematics import quadruped_kinematics_solver
 EPSILON = 1e-5
 
 class Raibert_controller():
-    def __init__(self, robot = 'a1', num_timestep_per_HL_action=50, target=None, speed_gain=0.0, des_body_ori=None,
-                 control_frequency=60, leg_set_1=[0, 3], leg_set_2=[1, 2], leg_clearance=0.1, action_limit=None, **kwargs):
+    def __init__(self, robot = 'a1', num_timestep_per_HL_action=100, target=None, speed_gain=0.0, des_body_ori=None,
+                 control_frequency=100, leg_set_1=[0, 3], leg_set_2=[1, 2], leg_clearance=0.1, action_limit=None, **kwargs):
         if robot == 'a1':
             self.kinematics_solver = quadruped_kinematics_solver(**a1_config)
         
@@ -54,7 +54,7 @@ class Raibert_controller():
         self.init_foot_pos = self.kinematics_solver.robot_frame_to_world_robot(state['base_ori_euler'], self.init_foot_pos_robot)
         self.standing_height = -(self.init_foot_pos[2] + self.init_foot_pos[5])/2.0
         self.des_body_ori = np.array([0, 0, state['base_ori_euler'][2]])
-        self.final_des_body_ori = self.des_body_ori
+        self.final_des_body_ori = np.array([0, 0, state['base_ori_euler'][2]])
         self.init_r_yaw = self.get_init_r_yaw(self.init_foot_pos)
         self.swing_start_foot_pos_world = self.init_foot_pos
 
@@ -74,7 +74,7 @@ class Raibert_controller():
 
         speed_term = self.num_timestep_per_HL_action / (2 * self.control_frequency) * self.target[0:2]
         acceleration_term = self.speed_gain * (current_speed - self.target[0:2])
-        orientation_speed_term = -self.num_timestep_per_HL_action / self.control_frequency * self.target[2]
+        orientation_speed_term = -self.num_timestep_per_HL_action / self.control_frequency * state['base_ori_euler'][2]
 
         des_footstep = (speed_term + acceleration_term)
         self.latent_action[0:2] = des_footstep
@@ -108,11 +108,12 @@ class Raibert_controller():
                 angle = self.init_r_yaw[i][1]
                 target_delta_xy[3*i] = self.init_r_yaw[i][0] * math.cos(angle) - self.latent_action[0] - \
                                         swing_start_foot_pos_robot[3*i]
-                target_delta_xy[3*i] = self.init_r_yaw[i][0] * math.sin(angle) - self.latent_action[1] - \
+                target_delta_xy[3*i+1] = self.init_r_yaw[i][0] * math.sin(angle) - self.latent_action[1] - \
                                         swing_start_foot_pos_robot[3*i+1]
             target_delta_xy[3*i+2] = -self.standing_height
         # transform target x y to the 0 yaw frame
         self.target_delta_xyz_world = self.kinematics_solver.robot_frame_to_world_robot(np.array(self.last_com_ori), target_delta_xy)
+
 
     
     def get_action(self, state, t):
@@ -124,20 +125,21 @@ class Raibert_controller():
     
     def _get_action(self, state, phase):
         self.des_foot_position_world = np.array([])
-        self.des_body_ori = (self.final_des_body_ori - self.last_com_ori) * phase + self.last_com_ori
+        self.des_body_ori[2] = (self.final_des_body_ori[2] - self.last_com_ori[2]) * phase + self.last_com_ori[2]
         # this seems to be designed only when walking on a flat ground
         des_foot_height_delta = (self.leg_clearance * math.sin(math.pi * phase + EPSILON))
 
         for i in range(self.num_legs):
             des_single_foot_pos = np.zeros(3)
             if i in self.swing_set:
-                des_single_foot_pos[2] = des_foot_height_delta - self.standing_height
+                des_single_foot_pos[2] = 1.0*des_foot_height_delta - self.standing_height
             else:
-                des_single_foot_pos[2] = -self.standing_height
+                des_single_foot_pos[2] = 0.5*des_foot_height_delta - self.standing_height
 
             des_single_foot_pos[0] = self.target_delta_xyz_world[3*i] * phase + self.swing_start_foot_pos_world[3*i]
             des_single_foot_pos[1] = self.target_delta_xyz_world[3*i+1] * phase + self.swing_start_foot_pos_world[3*i+1]
             self.des_foot_position_world = np.append(self.des_foot_position_world ,des_single_foot_pos)
+
 
         self.des_foot_position_com = self.kinematics_solver.world_frame_to_robot_robot(self.des_body_ori, self.des_foot_position_world)
         des_leg_pose = self.kinematics_solver.inverse_kinematics_robot(self.des_foot_position_com)

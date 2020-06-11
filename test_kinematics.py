@@ -8,16 +8,18 @@ from unitree_utils.quadruped_kinematics import quadruped_kinematics_solver
 import unitree_env as e
 
 kinematics_solver = quadruped_kinematics_solver(**a1_config)
-env = e.UnitreeBasicEnv(render=False, robot ='a1',control_mode='position')
+env = e.UnitreeBasicEnv(render=True, robot ='a1',control_mode='position')
 init_state = env.reset()
 
-leg_index = 0
+leg_index = 1
 foot_pos_record = []
 foot_pos_predict = []
 joint_pos_record = []
 joint_pos_predict = []
 for _ in range(500):
-    action = 0.2*np.random.randn(12)
+    action = init_state['j_pos']
+    action[2] = -2.0
+    action[5] = -2.0
     state = env.step(action)
     foot_pos_record.append(state['foot_pos_robot'])
     joint_pos_record.append(state['j_pos'])

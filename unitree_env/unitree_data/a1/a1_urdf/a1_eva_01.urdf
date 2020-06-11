@@ -112,7 +112,7 @@
       <geometry>
         <mesh filename=".//hip.STL" scale="1 1 1"/>
       </geometry>
-      <material name="black"/>
+      <material name="chartreuse"/>
     </visual>
     <collision>
       <origin rpy="1.57079632679 0 0" xyz="0 0 0"/>
@@ -161,7 +161,7 @@
       <geometry>
         <mesh filename=".//thigh_mirror.STL" scale="1 1 1"/>
       </geometry>
-      <material name="chartreuse"/>
+      <material name="purple"/>
     </visual>
     <collision>
       <origin rpy="0 1.57079632679 0" xyz="0 0 -0.1"/>
@@ -189,7 +189,7 @@
       <geometry>
         <mesh filename=".//calf.STL" scale="1 1 1"/>
       </geometry>
-      <material name="purple"/>
+      <material name="black"/>
     </visual>
     <collision>
       <origin rpy="0 1.57079632679 0" xyz="0 0 -0.1"/>
@@ -271,7 +271,7 @@
       <geometry>
         <mesh filename=".//hip.STL" scale="1 1 1"/>
       </geometry>
-      <material name="black"/>
+      <material name="chartreuse"/>
     </visual>
     <collision>
       <origin rpy="1.57079632679 0 0" xyz="0 0 0"/>
@@ -320,7 +320,7 @@
       <geometry>
         <mesh filename=".//thigh.STL" scale="1 1 1"/>
       </geometry>
-      <material name="chartreuse"/>
+      <material name="purple"/>
     </visual>
     <collision>
       <origin rpy="0 1.57079632679 0" xyz="0 0 -0.1"/>
@@ -348,7 +348,7 @@
       <geometry>
         <mesh filename=".//calf.STL" scale="1 1 1"/>
       </geometry>
-      <material name="purple"/>
+      <material name="black"/>
     </visual>
     <collision>
       <origin rpy="0 1.57079632679 0" xyz="0 0 -0.1"/>
@@ -430,7 +430,7 @@
       <geometry>
         <mesh filename=".//hip.STL" scale="1 1 1"/>
       </geometry>
-      <material name="black"/>
+      <material name="chartreuse"/>
     </visual>
     <collision>
       <origin rpy="1.57079632679 0 0" xyz="0 0 0"/>
@@ -479,7 +479,7 @@
       <geometry>
         <mesh filename=".//thigh_mirror.STL" scale="1 1 1"/>
       </geometry>
-      <material name="chartreuse"/>
+      <material name="purple"/>
     </visual>
     <collision>
       <origin rpy="0 1.57079632679 0" xyz="0 0 -0.1"/>
@@ -507,7 +507,7 @@
       <geometry>
         <mesh filename=".//calf.STL" scale="1 1 1"/>
       </geometry>
-      <material name="purple"/>
+      <material name="black"/>
     </visual>
     <collision>
       <origin rpy="0 1.57079632679 0" xyz="0 0 -0.1"/>
@@ -589,7 +589,7 @@
       <geometry>
         <mesh filename=".//hip.STL" scale="1 1 1"/>
       </geometry>
-      <material name="black"/>
+      <material name="chartreuse"/>
     </visual>
     <collision>
       <origin rpy="1.57079632679 0 0" xyz="0 0 0"/>
@@ -638,7 +638,7 @@
       <geometry>
         <mesh filename=".//thigh.STL" scale="1 1 1"/>
       </geometry>
-      <material name="chartreuse"/>
+      <material name="purple"/>
     </visual>
     <collision>
       <origin rpy="0 1.57079632679 0" xyz="0 0 -0.1"/>
@@ -666,7 +666,7 @@
       <geometry>
         <mesh filename=".//calf.STL" scale="1 1 1"/>
       </geometry>
-      <material name="purple"/>
+      <material name="black"/>
     </visual>
     <collision>
       <origin rpy="0 1.57079632679 0" xyz="0 0 -0.1"/>

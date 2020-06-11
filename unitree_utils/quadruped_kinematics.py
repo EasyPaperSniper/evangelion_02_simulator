@@ -1,7 +1,7 @@
 import math
 import numpy as np
 
-EPSILON = 1e-6
+EPSILON = 1e-4
 
 class quadruped_kinematics_solver():
     def __init__(self, thigh_length, shank_length, hip_joint_pos, thigh_joint_loc):
