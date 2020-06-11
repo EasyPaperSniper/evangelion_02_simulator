@@ -1,8 +1,8 @@
 import math
 import numpy as np
 
-from unitree_utils.robot_config import a1_config
-from unitree_utils.quadruped_kinematics import quadruped_kinematics_solver
+from unitree_toolkit.unitree_utils.robot_config import a1_config
+from unitree_toolkit.unitree_utils.quadruped_kinematics import quadruped_kinematics_solver
 
 EPSILON = 1e-5
 

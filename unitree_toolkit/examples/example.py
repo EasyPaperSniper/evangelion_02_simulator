@@ -3,10 +3,10 @@ import os
 
 import numpy as np
 
-import unitree_env as e
+from unitree_toolkit.unitree_robot_env import unitree_robot_API
 
+env = unitree_robot_API(render=True, robot ='a1',control_mode='position')
 
-env = e.UnitreeBasicEnv(render=True, robot ='a1',control_mode='position')
 
 state = env.reset()
 for _ in range(200):

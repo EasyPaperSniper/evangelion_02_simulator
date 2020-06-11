@@ -1,12 +1,12 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-from unitree_utils.robot_config import a1_config
-from unitree_utils.quadruped_kinematics import quadruped_kinematics_solver
-from unitree_utils.raibert_walking_controller import Raibert_controller
-import unitree_env as e
+from unitree_toolkit.unitree_utils.robot_config import a1_config
+from unitree_toolkit.unitree_utils.quadruped_kinematics import quadruped_kinematics_solver
+from unitree_toolkit.unitree_utils.raibert_walking_controller import Raibert_controller
+from unitree_toolkit.unitree_robot_env import unitree_robot_API
 
-env = e.UnitreeBasicEnv(render=True, robot ='a1',control_mode='position')
+env = unitree_robot_API(render=True, robot ='a1',control_mode='position')
 raibert_controller = Raibert_controller()
 
 state = env.reset()

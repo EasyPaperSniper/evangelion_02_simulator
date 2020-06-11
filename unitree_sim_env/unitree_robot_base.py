@@ -13,6 +13,8 @@ import time
 import tempfile
 import atexit
 
+print(currentdir)
+
 class UnitreeRobot(URDFBasedRobot):
     def __init__(self, robot_type = 'a1', initial_height = 0.40, self_collision=False,
         lateralFriction_robot=0.5, spinningFriction_robot=0.1, rollingFriction_robot = 0.1, linearDamping_robot = 0.1, angularDamping_robot = 0.1,
@@ -36,8 +38,7 @@ class UnitreeRobot(URDFBasedRobot):
                         action_dim=3*4,
                         obs_dim=4, basePosition=[0, 0, initial_height], baseOrientation=[0, 0, 0, 1],
                         fixed_base=False, self_collision=self_collision)
-            self._adapted_urdf_filepath = (os.path.dirname(os.path.dirname(currentdir)) + 
-                                    '/evangelion_02_simulator/unitree_env/unitree_data/a1/a1_urdf/a1_eva_01.urdf')
+            self._adapted_urdf_filepath = (currentdir + '/unitree_data/a1/a1_urdf/a1_eva_01.urdf')
             self._initial_joint_positions = [-0.05,0.60,-1.20,
                                              0.05, 0.60,-1.20,
                                              -0.05,0.65,-1.0,
@@ -48,8 +49,7 @@ class UnitreeRobot(URDFBasedRobot):
                         action_dim=3*4,
                         obs_dim=4, basePosition=[0, 0, initial_height], baseOrientation=[0, 0, 0, 1],
                         fixed_base=False, self_collision=self_collision)
-            self._adapted_urdf_filepath = (os.path.dirname(os.path.dirname(currentdir)) + 
-                                    '/evangelion_02_simulator/unitree_env/unitree_data/aliengo/aliengo_urdf/aliengo.urdf')
+            self._adapted_urdf_filepath = (currentdir + '/unitree_data/aliengo/aliengo_urdf/aliengo.urdf')
             self._initial_joint_positions =[-0.15,0.60,-1.20,
                                             0.15, 0.60,-1.20,
                                             -0.15,0.65,-1.0,
